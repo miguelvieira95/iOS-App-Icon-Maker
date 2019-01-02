@@ -23,14 +23,13 @@ var ImageDialog : NSOpenPanel
     return dialog;
 }
 
-var SaveDialog : NSOpenPanel
+var SaveDialog : NSSavePanel
 {
-    let dialog = NSOpenPanel()
+    let dialog = NSSavePanel()
     dialog.message                 = "Where do you want to save the images?";
     dialog.showsResizeIndicator    = true;
     dialog.showsHiddenFiles        = false;
-    dialog.canChooseDirectories = true;
-    dialog.canChooseFiles = false;
+    dialog.canCreateDirectories = true;
     dialog.allowsOtherFileTypes = false;
     dialog.canCreateDirectories = true;
     
@@ -57,8 +56,16 @@ func WarningAlert(withMessage message : String) -> NSAlert
     return alert;
 }
 
-struct IconSize
+struct Icon
 {
     var dimensions : CGSize;
     var name : String;
+}
+
+struct WatchIcon
+{
+    var dimensions : CGSize;
+    var name : String;
+    var role : String;
+    var subtype : String?;
 }

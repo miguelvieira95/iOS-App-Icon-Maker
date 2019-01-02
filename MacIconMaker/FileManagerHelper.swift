@@ -28,54 +28,89 @@ class FileManagerHelper
         }
     }
     
-    func SaveImages(urlToSaveTo : URL, images : [NSImage], fileNames : [String], jsonString : String, completion : ((String) -> ()))
+    func SaveImages(urlToSaveTo : URL, images : [NSImage], fileNames : [String], jsonString : String, watchImages : [NSImage]?, watchFileNames : [String]?, watchJsonString : String?, completion : ((String) -> ()))
     {
-            let userChosenPath = urlToSaveTo.absoluteString.replacingOccurrences(of: "file://", with: "");
-            let originalPath = "\(userChosenPath)ResizedIcons";
-            var pathToSaveTo = originalPath;
-            var foundValidDirectory = false;
-            var count : Int = 0;
+        let userChosenPath = urlToSaveTo.absoluteString.replacingOccurrences(of: "file://", with: "");
+        var pathToSaveTo = userChosenPath;
+        let watchFolderPath = "\(pathToSaveTo)/WatchIcons";
+        let iOSFolderPath = "\(pathToSaveTo)/iOSIcons";
+        var foundValidDirectory = false;
+        var count : Int = 0;
+        
+        while (!foundValidDirectory && count<100)
+        {
+            pathToSaveTo = count == 0 ? userChosenPath : "\(userChosenPath)\(count)"
             
-            while (!foundValidDirectory && count<100)
-            {
-                pathToSaveTo = count == 0 ? originalPath : "\(originalPath)\(count)"
-                
-                foundValidDirectory = !FileManager().fileExists(atPath: pathToSaveTo);
-                count+=1;
-            }
+            foundValidDirectory = !FileManager().fileExists(atPath: pathToSaveTo);
+            count+=1;
+        }
+        
+        do
+        {
+            try FileManager().createDirectory(at: URL(fileURLWithPath: pathToSaveTo), withIntermediateDirectories: true, attributes: nil);
             
+            try FileManager().createDirectory(at: URL(fileURLWithPath: iOSFolderPath), withIntermediateDirectories: true, attributes: nil);
+        }
+        catch let error
+        {
+            ErrorAlert(withMessage: error.localizedDescription).runModal();
+            completion("Failed. Could not create directory.");
+            return;
+        }
+        
+        for i in 0..<images.count
+        {
+            FileManagerHelper().SaveData(data: images[i].tiffRepresentation, toPath: iOSFolderPath, withName: fileNames[i], fileExtension: "png");
+        }
+        
+        if (!SaveContentsJson(withString: jsonString, andPath: iOSFolderPath))
+        {
+            completion("Could not create iOS Contents.json file.")
+        }
+        
+        if let unwrappedWatchImages = watchImages, let unwrappedWatchFileNames = watchFileNames, let unwrappedWatchJsonString = watchJsonString
+        {
             do
             {
-                try FileManager().createDirectory(at: URL(fileURLWithPath: "\(pathToSaveTo)"), withIntermediateDirectories: true, attributes: nil);
+                try FileManager().createDirectory(at: URL(fileURLWithPath: watchFolderPath), withIntermediateDirectories: true, attributes: nil);
             }
             catch let error
             {
                 ErrorAlert(withMessage: error.localizedDescription).runModal();
-                completion("Failed. Could not create directory.");
+                completion("Failed. Could not create Watch directory.");
                 return;
             }
             
-            for i in 0..<images.count
+            for i in 0..<unwrappedWatchImages.count
             {
-                FileManagerHelper().SaveData(data: images[i].tiffRepresentation, toPath: pathToSaveTo, withName: fileNames[i], fileExtension: "png");
+                FileManagerHelper().SaveData(data: unwrappedWatchImages[i].tiffRepresentation, toPath: watchFolderPath, withName: unwrappedWatchFileNames[i], fileExtension: "png");
             }
             
-            let file = "Contents.json"
-            let fileURL = URL(fileURLWithPath: pathToSaveTo).appendingPathComponent(file)
-            
-            do
+            if (!SaveContentsJson(withString: unwrappedWatchJsonString, andPath: watchFolderPath))
             {
-                try jsonString.write(to: fileURL, atomically: false, encoding: .utf8)
+                completion("Could not create Watch Contents.json file.")
             }
-            catch let error
-            {
-                print(error.localizedDescription);
-                completion("Failed. Could not \"Contents.json\" file.");
-                return;
-            }
+        }
         
-            completion("Done.");
-
+        completion("Done.");
+    }
+    
+    private func SaveContentsJson(withString contentsString : String, andPath path : String) -> Bool
+    {
+        let file = "Contents.json"
+        let fileURL = URL(fileURLWithPath: path).appendingPathComponent(file)
+        
+        do
+        {
+            try contentsString.write(to: fileURL, atomically: false, encoding: .utf8)
+        }
+        catch let error
+        {
+            print(error.localizedDescription);
+            return false;
+        }
+        
+        return true;
     }
 }
 

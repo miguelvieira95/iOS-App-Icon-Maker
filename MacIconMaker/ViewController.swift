@@ -43,13 +43,24 @@ class ViewController: NSViewController {
                         WarningAlert(withMessage: "The image aspect ratio will be changed!").runModal();
                     }
                     
-                    let (resizedImages, imageNames, finalJson) = ImageResizer().ResizeImages(imageToResize: imageToResize, resizeForiPhone: iPhoneCheckButton!.state == .on, resizeForiPad: ipadCheckButton!.state == .on, resizeForWatch: appleWatchCheckButton!.state == .on);
+                    let (resizedImages, imageNames, finalJson) = ImageResizer().ResizeiOSImages(imageToResize: imageToResize, resizeForiPhone: iPhoneCheckButton!.state == .on, resizeForiPad: ipadCheckButton!.state == .on);
+                    
+                    
+                    var resizedWatchImages : [NSImage]? = nil, watchImageNames : [String]? = nil, finalWatchJson : String? = nil;
+                    if (appleWatchCheckButton!.state == .on)
+                    {
+                        let (tempResizedWatchImages, tempWatchImageNames, tempWatchJson) = ImageResizer().ResizeWatchImages(imageToResize: imageToResize)
+                        
+                        resizedWatchImages = tempResizedWatchImages;
+                        watchImageNames = tempWatchImageNames;
+                        finalWatchJson = tempWatchJson;
+                    }
                     
                     let dialog = SaveDialog;
                     if dialog.runModal() == NSApplication.ModalResponse.OK, let url = dialog.url
                     {
                         statusLabel.stringValue = "Processing...";
-                        FileManagerHelper().SaveImages(urlToSaveTo: url, images: resizedImages, fileNames: imageNames, jsonString: finalJson, completion: { (processStatus) in
+                        FileManagerHelper().SaveImages(urlToSaveTo: url, images: resizedImages, fileNames: imageNames, jsonString: finalJson, watchImages: resizedWatchImages, watchFileNames: watchImageNames, watchJsonString: finalWatchJson, completion: { (processStatus) in
                             statusLabel.stringValue = processStatus;
                         })
                     }

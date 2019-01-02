@@ -24,7 +24,7 @@ class ImageResizer
         return resizedImage;
     }
     
-    func ResizeImages(imageToResize : NSImage, resizeForiPhone : Bool, resizeForiPad : Bool, resizeForWatch : Bool) -> ([NSImage], [String], String)
+    func ResizeiOSImages(imageToResize : NSImage, resizeForiPhone : Bool, resizeForiPad : Bool) -> ([NSImage], [String], String)
     {
         var jsonString = "{ \n \"images\" : [";
         
@@ -38,19 +38,24 @@ class ImageResizer
             names.append(universalDimensions[i].name)
             
             var scale = "1x";
+            var dimensionInPoints = universalDimensions[i].dimensions.width;
             
             if (names[i].contains("2x"))
             {
                 scale = "2x";
+                dimensionInPoints/=2;
             }
             else if (names[i].contains("3x"))
             {
                 scale = "3x";
+                dimensionInPoints/=3;
             }
             
-            jsonString.append("\n\t{ \n\t \"size\" : \"\(Int(universalDimensions[i].dimensions.width))x\(Int(universalDimensions[i].dimensions.height))\", \n\t \"idiom\" : \"iPhone\", \n\t \"filename\" : \"\(universalDimensions[i].name)\",\n\t \"scale\" : \"\(scale)\"\n\t},");
+            let dimensionString = String(format: "%g", dimensionInPoints)
             
-            jsonString.append("\n\t{ \n\t \"size\" : \"\(Int(universalDimensions[i].dimensions.width))x\(Int(universalDimensions[i].dimensions.height))\", \n\t \"idiom\" : \"iPad\",\n\t \"scale\" : \"\(scale)\"\n\t},");
+            jsonString.append("\n\t{ \n\t \"size\" : \"\(dimensionString)x\(dimensionString)\", \n\t \"idiom\" : \"iPhone\", \n\t \"filename\" : \"\(universalDimensions[i].name)\",\n\t \"scale\" : \"\(scale)\"\n\t},");
+            
+            jsonString.append("\n\t{ \n\t \"size\" : \"\(dimensionString)x\(dimensionString)\", \n\t \"idiom\" : \"iPad\",\n\t \"scale\" : \"\(scale)\"\n\t},");
         }
         
         if (resizeForiPhone)
@@ -62,17 +67,22 @@ class ImageResizer
                 names.append(iphoneDimensions[i].name)
                 
                 var scale = "1x";
+                var dimensionInPoints = iphoneDimensions[i].dimensions.width;
                 
                 if (names[i].contains("2x"))
                 {
                     scale = "2x";
+                    dimensionInPoints/=2;
                 }
                 else if (names[i].contains("3x"))
                 {
                     scale = "3x";
+                    dimensionInPoints/=3;
                 }
                 
-                jsonString.append("\n\t{ \n\t \"size\" : \"\(Int(iphoneDimensions[i].dimensions.width))x\(Int(iphoneDimensions[i].dimensions.height))\", \n\t \"idiom\" : \"iPhone\", \n\t \"filename\" : \"\(iphoneDimensions[i].name)\",\n\t \"scale\" : \"\(scale)\" \n\t},");
+                let dimensionString = String(format: "%g", dimensionInPoints)
+
+                jsonString.append("\n\t{ \n\t \"size\" : \"\(dimensionString)x\(dimensionString)\", \n\t \"idiom\" : \"iPhone\", \n\t \"filename\" : \"\(iphoneDimensions[i].name)\",\n\t \"scale\" : \"\(scale)\" \n\t},");
             }
         }
         
@@ -85,23 +95,59 @@ class ImageResizer
                 names.append(iPadDimensions[i].name)
                 
                 var scale = "1x";
+                var dimensionInPoints = iPadDimensions[i].dimensions.width;
                 
                 if (names[i].contains("2x"))
                 {
                     scale = "2x";
+                    dimensionInPoints/=2;
                 }
                 else if (names[i].contains("3x"))
                 {
                     scale = "3x";
+                    dimensionInPoints/=3;
                 }
                 
-                jsonString.append("\n\t{ \n\t \"size\" : \"\(Int(iPadDimensions[i].dimensions.width))x\(Int(iPadDimensions[i].dimensions.height))\", \n\t \"idiom\" : \"iPad\", \n\t \"filename\" : \"\(iPadDimensions[i].name)\",\n\t \"scale\" : \"\(scale)\" \n\t},");
+                let dimensionString = String(format: "%g", dimensionInPoints)
+                
+                jsonString.append("\n\t{ \n\t \"size\" : \"\(dimensionString)x\(dimensionString)\", \n\t \"idiom\" : \"iPad\", \n\t \"filename\" : \"\(iPadDimensions[i].name)\",\n\t \"scale\" : \"\(scale)\" \n\t},");
             }
         }
         
-        if (resizeForWatch)
+        jsonString.removeLast(); //ultima virgula
+        jsonString.append("\n],\n \"info\" : { \n\t\"version\" : 1,\n\t\"author\" : \"xcode\"\n  }\n}")
+        
+        return (resizedImages, names, jsonString);
+    }
+    
+    func ResizeWatchImages(imageToResize : NSImage) -> ([NSImage], [String], String)
+    {
+        var jsonString = "{ \n \"images\" : [";
+        
+        var resizedImages = [NSImage]()
+        var names = [String]()
+        
+        for i in 0..<watchDimensions.count
         {
-            // dimensions.append(contentsOf: iPadDimensions);
+            guard let resizedImage = Resize(image: imageToResize, size: watchDimensions[i].dimensions) else { continue }
+            
+            resizedImages.append(resizedImage)
+            names.append(watchDimensions[i].name)
+            
+            let scale = names[i].contains("3x") ? "3x" : "2x";
+            let dimensionInPoints = scale == "3x" ? watchDimensions[i].dimensions.width/3 : watchDimensions[i].dimensions.width/2;
+            
+            let dimensionString = String(format: "%g", dimensionInPoints)
+
+            if let subtype = watchDimensions[i].subtype
+            {
+                jsonString.append("\n\t{ \n\t \"size\" : \"\(dimensionString)x\(dimensionString)\", \n\t \"idiom\" : \"watch  \", \n\t \"filename\" : \"\(watchDimensions[i].name)\",\n\t \"role\" : \"\(watchDimensions[i].role)\",\n\t \"subtype\" : \"\(subtype)\",\n\t \"scale\" : \"\(scale)\" \n\t},");
+            }
+            else
+            {
+                jsonString.append("\n\t{ \n\t \"size\" : \"\(dimensionString)x\(dimensionString)\", \n\t \"idiom\" : \"watch  \", \n\t \"filename\" : \"\(watchDimensions[i].name)\",\n\t \"role\" : \"\(watchDimensions[i].role)\",\n\t \"scale\" : \"\(scale)\" \n\t},");
+            }
+            
         }
         
         jsonString.removeLast(); //ultima virgula
