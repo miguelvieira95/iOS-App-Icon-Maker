@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11134" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11134"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -673,7 +674,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="MacIconMaker" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -683,10 +684,10 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                    <window key="window" title="Image Icon Resizer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="contentRect" x="196" y="240" width="350" height="100"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
@@ -703,11 +704,77 @@
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="MacIconMaker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="100"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t7z-k3-1Lk">
+                                <rect key="frame" x="111" y="33" width="129" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="6j7-d7-o0p"/>
+                                    <constraint firstAttribute="width" constant="117" id="e4h-yF-wdT"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Convert Image" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UlE-eI-NEm">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="ChooseImageWithSender:" target="XfG-lQ-9wD" id="z14-ds-aMR"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oUv-Je-VXI">
+                                <rect key="frame" x="73" y="13" width="204" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Gkl-13-E5g"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Label" id="sOE-aA-eLl">
+                                    <font key="font" metaFont="system" size="15"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lgK-1O-WpC">
+                                <rect key="frame" x="6" y="73" width="100" height="18"/>
+                                <buttonCell key="cell" type="check" title="iPhone Icons" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="YJK-9V-q30">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XLw-5b-TOk">
+                                <rect key="frame" x="235" y="73" width="109" height="18"/>
+                                <buttonCell key="cell" type="check" title="Watch Icons" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="NPN-gZ-YRa">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Oud-aQ-cNq">
+                                <rect key="frame" x="133" y="73" width="85" height="18"/>
+                                <buttonCell key="cell" type="check" title="iPad Icons" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="X3Q-qd-w7I">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="XLw-5b-TOk" firstAttribute="centerY" secondItem="Oud-aQ-cNq" secondAttribute="centerY" id="2ky-e8-gAI"/>
+                            <constraint firstItem="Oud-aQ-cNq" firstAttribute="centerY" secondItem="lgK-1O-WpC" secondAttribute="centerY" id="AJB-RW-OfU"/>
+                            <constraint firstItem="t7z-k3-1Lk" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="Aki-Sa-BQv"/>
+                            <constraint firstItem="Oud-aQ-cNq" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="Qd5-gq-1td"/>
+                            <constraint firstAttribute="trailing" secondItem="XLw-5b-TOk" secondAttribute="trailing" constant="8" id="qgj-gg-3yH"/>
+                            <constraint firstItem="t7z-k3-1Lk" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="rg8-Ox-5V3"/>
+                            <constraint firstItem="lgK-1O-WpC" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="8" id="tqA-1U-6BP"/>
+                            <constraint firstItem="Oud-aQ-cNq" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="11" id="uEX-Zz-Ms0"/>
+                            <constraint firstItem="oUv-Je-VXI" firstAttribute="top" secondItem="t7z-k3-1Lk" secondAttribute="bottom" constant="8" id="ukz-Gk-hN3"/>
+                            <constraint firstItem="oUv-Je-VXI" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="xaI-2R-0iA"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="appleWatchCheckButton" destination="XLw-5b-TOk" id="JpQ-v2-PvY"/>
+                        <outlet property="iPhoneCheckButton" destination="lgK-1O-WpC" id="4IC-1C-gzt"/>
+                        <outlet property="ipadCheckButton" destination="Oud-aQ-cNq" id="dms-o6-wo1"/>
+                        <outlet property="statusLabel" destination="oUv-Je-VXI" id="gx8-hW-pTv"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -13,6 +13,10 @@
 		0D1C885C21C3BC15008679C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D1C885A21C3BC15008679C3 /* Main.storyboard */; };
 		0D1C886821C3BC15008679C3 /* MacIconMakerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C886721C3BC15008679C3 /* MacIconMakerTests.swift */; };
 		0D1C887321C3BC15008679C3 /* MacIconMakerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C887221C3BC15008679C3 /* MacIconMakerUITests.swift */; };
+		0D1C888121C3BCF0008679C3 /* CustomObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C888021C3BCF0008679C3 /* CustomObjects.swift */; };
+		0D1C888321C3BE89008679C3 /* ImageResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C888221C3BE89008679C3 /* ImageResizer.swift */; };
+		0D1C888521C3C715008679C3 /* FileManagerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C888421C3C715008679C3 /* FileManagerHelper.swift */; };
+		0D1C888721C3DAFA008679C3 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1C888621C3DAFA008679C3 /* Defaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +50,10 @@
 		0D1C886E21C3BC15008679C3 /* MacIconMakerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacIconMakerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D1C887221C3BC15008679C3 /* MacIconMakerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacIconMakerUITests.swift; sourceTree = "<group>"; };
 		0D1C887421C3BC15008679C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D1C888021C3BCF0008679C3 /* CustomObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomObjects.swift; sourceTree = "<group>"; };
+		0D1C888221C3BE89008679C3 /* ImageResizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResizer.swift; sourceTree = "<group>"; };
+		0D1C888421C3C715008679C3 /* FileManagerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerHelper.swift; sourceTree = "<group>"; };
+		0D1C888621C3DAFA008679C3 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,12 +104,16 @@
 		0D1C885321C3BC13008679C3 /* MacIconMaker */ = {
 			isa = PBXGroup;
 			children = (
+				0D1C888221C3BE89008679C3 /* ImageResizer.swift */,
 				0D1C885421C3BC14008679C3 /* AppDelegate.swift */,
 				0D1C885621C3BC14008679C3 /* ViewController.swift */,
+				0D1C888421C3C715008679C3 /* FileManagerHelper.swift */,
+				0D1C888021C3BCF0008679C3 /* CustomObjects.swift */,
 				0D1C885821C3BC15008679C3 /* Assets.xcassets */,
 				0D1C885A21C3BC15008679C3 /* Main.storyboard */,
 				0D1C885D21C3BC15008679C3 /* Info.plist */,
 				0D1C885E21C3BC15008679C3 /* MacIconMaker.entitlements */,
+				0D1C888621C3DAFA008679C3 /* Defaults.swift */,
 			);
 			path = MacIconMaker;
 			sourceTree = "<group>";
@@ -254,8 +266,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D1C888521C3C715008679C3 /* FileManagerHelper.swift in Sources */,
+				0D1C888321C3BE89008679C3 /* ImageResizer.swift in Sources */,
 				0D1C885721C3BC14008679C3 /* ViewController.swift in Sources */,
+				0D1C888721C3DAFA008679C3 /* Defaults.swift in Sources */,
 				0D1C885521C3BC14008679C3 /* AppDelegate.swift in Sources */,
+				0D1C888121C3BCF0008679C3 /* CustomObjects.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +440,7 @@
 				CODE_SIGN_ENTITLEMENTS = MacIconMaker/MacIconMaker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 734HHVS672;
+				DEVELOPMENT_TEAM = CDBFSNYAWV;
 				INFOPLIST_FILE = MacIconMaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -443,7 +459,7 @@
 				CODE_SIGN_ENTITLEMENTS = MacIconMaker/MacIconMaker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 734HHVS672;
+				DEVELOPMENT_TEAM = CDBFSNYAWV;
 				INFOPLIST_FILE = MacIconMaker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
