@@ -33,7 +33,7 @@ class FileManagerHelper
         let userChosenPath = urlToSaveTo.absoluteString.replacingOccurrences(of: "file://", with: "");
         var pathToSaveTo = userChosenPath;
         let watchFolderPath = "\(pathToSaveTo)/WatchIcons";
-        let iOSFolderPath = "\(pathToSaveTo)/iOSIcons";
+        let iOSFolderPath = "\(pathToSaveTo)/AppIcon";
         var foundValidDirectory = false;
         var count : Int = 0;
         
